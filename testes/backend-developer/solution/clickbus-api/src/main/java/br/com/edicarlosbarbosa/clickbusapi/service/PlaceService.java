@@ -8,9 +8,9 @@ public interface PlaceService {
 
     PlaceDTO save(PlaceDTO dto);
 
-    List<PlaceDTO> findAll();
+    List<PlaceDTO> findAll(String name);
 
-    PlaceDTO findOne(Long id) throws Exception;
+    PlaceDTO findOne(Long id);
 
     PlaceDTO update(Long id, PlaceDTO dto);
 

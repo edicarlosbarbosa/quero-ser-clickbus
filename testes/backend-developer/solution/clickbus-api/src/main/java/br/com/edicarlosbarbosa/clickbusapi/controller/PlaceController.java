@@ -2,54 +2,61 @@ package br.com.edicarlosbarbosa.clickbusapi.controller;
 
 import br.com.edicarlosbarbosa.clickbusapi.model.dto.PlaceDTO;
 import br.com.edicarlosbarbosa.clickbusapi.service.PlaceService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("v1/place")
+@ExposesResourceFor(PlaceDTO.class)
 @Slf4j
 public class PlaceController {
 
-    private final String RESOURCE = "/place";
+    private final String RESOURCE = "place";
 
     @Autowired
     private PlaceService service;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.)
-    public ResponseEntity<PlaceDTO> save(@Validated @RequestBody PlaceDTO dto) {
-        PlaceDTO place = service.save(dto);
-        return ResponseEntity
-                .created(URI.create(RESOURCE))
-                .body(place);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Create a place")
+    public PlaceDTO save(@Validated @RequestBody PlaceDTO dto) {
+        log.info("Save register for {}", RESOURCE);
+        return service.save(dto);
     }
 
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<PlaceDTO> findAll() {
-        return service.findAll();
+    @GetMapping()
+    @ApiOperation("Get all places")
+    public List<PlaceDTO> findAll(String name) {
+        log.info("Find All {}", RESOURCE);
+        return service.findAll(name);
     }
 
-    @GetMapping("{id}")
+    @GetMapping()
     @ResponseBody
-    public ResponseEntity<PlaceDTO> findOne(@PathVariable Long id) {
+    @ApiOperation("Get a specific place")
+    public PlaceDTO findOne(@PathVariable Long id) {
+        log.info("Find One By Id for {}", RESOURCE);
         return service.findOne(id);
     }
 
-    @Pat
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PlaceDTO> update(@PathVariable Long id, @Validated @RequestBody PlaceDTO dto) {
+    @PutMapping("{id}")
+    @ApiOperation("Edit a place")
+    public PlaceDTO update(@PathVariable Long id, @Validated @RequestBody PlaceDTO dto) {
+        log.info("Edit register for {}", RESOURCE);
         return service.update(id, dto);
     }
 
     @DeleteMapping("{id}")
+    @ApiOperation("Remove a place")
     public void delete(@PathVariable Long id) {
+        log.info("Delete register for {}", RESOURCE);
         service.delete(id);
     }
 

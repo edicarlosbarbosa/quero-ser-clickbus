@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ClickbusApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ClickbusApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ClickbusApiApplication.class, args);
+    }
 
 }
